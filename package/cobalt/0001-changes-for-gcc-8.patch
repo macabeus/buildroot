@@ -1,6 +1,6 @@
 diff -ruN cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h cobalt/src/net/third_party/quic/core/frames/quic_frame.h
---- cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h	2020-04-14 16:47:47.990357428 +0530
-+++ cobalt/src/net/third_party/quic/core/frames/quic_frame.h	2020-04-14 20:23:36.349154705 +0530
+--- cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h	2020-11-17 00:41:22.849073026 +0530
++++ cobalt/src/net/third_party/quic/core/frames/quic_frame.h	2020-11-17 00:43:38.608360164 +0530
 @@ -111,7 +111,7 @@
  static_assert(sizeof(QuicFrame) <= 24,
                "Frames larger than 24 bytes should be referenced by pointer.");
@@ -11,8 +11,8 @@ diff -ruN cobalt.orig/src/net/third_party/quic/core/frames/quic_frame.h cobalt/s
  static_assert(offsetof(QuicStreamFrame, type) == offsetof(QuicFrame, type),
                "Offset of |type| must match in QuicFrame and QuicStreamFrame");
 diff -ruN cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h cobalt/src/net/third_party/quic/core/frames/quic_inlined_frame.h
---- cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2020-04-14 16:47:47.990357428 +0530
-+++ cobalt/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2020-04-14 20:24:24.282159470 +0530
+--- cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2020-11-17 00:41:22.849073026 +0530
++++ cobalt/src/net/third_party/quic/core/frames/quic_inlined_frame.h	2020-11-17 00:43:38.608360164 +0530
 @@ -18,7 +18,7 @@
  struct QUIC_EXPORT_PRIVATE QuicInlinedFrame {
    QuicInlinedFrame(QuicFrameType type) : type(type) {
@@ -22,9 +22,9 @@ diff -ruN cobalt.orig/src/net/third_party/quic/core/frames/quic_inlined_frame.h 
      // Raspi compiler does not allow none-static type in offsetof, but we should
      // turn on this check on as many platforms as possible.
      static_assert(offsetof(DerivedT, type) == 0,
-diff -ruN cobalt.orig/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi cobalt/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi
---- cobalt.orig/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi	2020-04-14 16:48:10.675208200 +0530
-+++ cobalt/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi	2020-04-14 20:25:14.427143197 +0530
+diff -ruN cobalt.orig/src/third_party/starboard/wpe/brcm/arm/gyp_configuration.gypi cobalt/src/third_party/starboard/wpe/brcm/arm/gyp_configuration.gypi
+--- cobalt.orig/src/third_party/starboard/wpe/brcm/arm/gyp_configuration.gypi	2020-11-17 00:41:30.805025692 +0530
++++ cobalt/src/third_party/starboard/wpe/brcm/arm/gyp_configuration.gypi	2020-11-17 00:54:42.699607266 +0530
 @@ -65,6 +65,9 @@
        # matters: Wall implies Wunused-parameter and Wno-unused-parameter
        # has no effect if specified before Wall.
@@ -35,9 +35,22 @@ diff -ruN cobalt.orig/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi c
  
        # For some reason Thumb build is broken
        '-marm',
+diff -ruN cobalt.orig/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi cobalt/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi
+--- cobalt.orig/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi	2020-11-17 00:41:30.805025692 +0530
++++ cobalt/src/third_party/starboard/wpe/rpi/gyp_configuration.gypi	2020-11-17 00:43:38.608360164 +0530
+@@ -66,6 +66,9 @@
+       # matters: Wall implies Wunused-parameter and Wno-unused-parameter
+       # has no effect if specified before Wall.
+       '-Wno-unused-parameter',
++      '-Wno-expansion-to-defined',
++      '-Wimplicit-fallthrough=0',
++      '-Wno-ignored-qualifiers',
+ 
+       # For some reason Thumb build is broken
+       '-marm',
 diff -ruN cobalt.orig/src/third_party/starboard/wpe/shared/player/player_internal.cc cobalt/src/third_party/starboard/wpe/shared/player/player_internal.cc
---- cobalt.orig/src/third_party/starboard/wpe/shared/player/player_internal.cc	2020-04-14 16:48:10.679208347 +0530
-+++ cobalt/src/third_party/starboard/wpe/shared/player/player_internal.cc	2020-04-14 20:26:05.564081978 +0530
+--- cobalt.orig/src/third_party/starboard/wpe/shared/player/player_internal.cc	2020-11-17 00:41:30.809025669 +0530
++++ cobalt/src/third_party/starboard/wpe/shared/player/player_internal.cc	2020-11-17 00:43:38.608360164 +0530
 @@ -105,8 +105,7 @@
  
  G_END_DECLS
